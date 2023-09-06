@@ -5,6 +5,8 @@ BytePiece是一个byte-based的Unigram分词器。由于采用了新的训练算
 
 ## 原理
 
+## 安装
+
 ## 使用
 
 ## 引用
