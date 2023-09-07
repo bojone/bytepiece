@@ -71,7 +71,7 @@ trainer.save('bytepiece.model')
 from bytepiece import Tokenizer
 
 tokenizer = Tokenizer('bytepiece.model')
-text = u'今天天气不错'
+text = '今天天气不错'
 
 tokens = tokenizer.tokenize(text)  # 返回bytes的list
 print(b' '.join(tokens).decode(errors='ignore'))  # 可视化分词结果
