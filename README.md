@@ -79,6 +79,7 @@ print(b' '.join(tokens).decode(errors='ignore'))  # 可视化分词结果
 ids = tokenizer.encode(text)  # 返回tokens对应的ids
 print(tokenizer.decode(ids))  # 重新将ids解码为unicode文本
 ```
+
 ## 对比
 
 小数据量对比：
@@ -97,7 +98,7 @@ print(tokenizer.decode(ids))  # 重新将ids解码为unicode文本
 | SP-Unigram | 2.02小时 | 384GB | 4.51 | 4.48 |
 | BytePiece | 2.24小时 | 51GB | 5.39 | 4.51 |
 
-训练细节请参考[这里](https://kexue.fm/archives/9752#%E6%95%88%E6%9E%9C%E6%B5%8B%E8%AF%95)。
+压缩率的单位是“bytes/token”，即平均每个token对应的字节数。其他细节请参考[这里](https://kexue.fm/archives/9752#%E6%95%88%E6%9E%9C%E6%B5%8B%E8%AF%95)。
 
 ## 引用
 
