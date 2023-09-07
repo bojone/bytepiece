@@ -18,7 +18,7 @@ BytePiece构思了新的基于Byte-based N-gram Language Model（BNLM）的训�
 
 ## 原理
 
-新的训练方式基于N-gram语言模型的新词发现算法，首次提出于笔者7年前的博客[《【中文分词系列】 5. 基于语言模型的无监督分词》](https://kexue.fm/archives/3956)。
+新的训练方式基于N-gram语言模型的新词发现算法，首次提出于笔者7年前的博客[《【中文分词系列】 5. 基于语言模型的无监督分词》](https://kexue.fm/archives/3956)，细节请移步阅读。
 
 ## 安装
 
