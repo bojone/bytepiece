@@ -104,7 +104,7 @@ print(tokenizer.decode(ids))  # 重新将ids解码为unicode文本
 
 ```
 @misc{bytepiece2023,
-  title={BytePiece: a more pure and effective tokenizer},
+  title={BytePiece: A more pure and effective tokenizer},
   author={Jianlin Su},
   year={2023},
   howpublished={\url{https://github.com/bojone/bytepiece}},
