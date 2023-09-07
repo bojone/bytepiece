@@ -37,6 +37,61 @@ pip install bytepiece==0.1.0
 
 ## 使用
 
+BytePiece的所有源码其实也就是单文件，包含`Trainer`和`Tokenizer`两个类，分别对应训练和分词。
+
+### 训练
+
+训练Tokenizer只需要引入`Trainer`类：
+```python
+from bytepiece import Trainer
+```
+然后准备训练语料。BytePiece支持不一次性将所有语料读进内存中，但由于BytePiece训练需要过两遍数据，所以不支持Generator输入，而是要写成Iterator的形式，例如：
+```python
+import json
+
+class corpus:
+    def __iter__(self):
+        f = 'data_sample.json'
+        with open(f) as f:
+            for l in f:
+                yield json.loads(l)['text']  # 每次返回一个Unicode
+```
+然后就可以正式训练了：
+```python
+trainer = Trainer(order=6, max_vocab_size=100000, min_count=32)
+trainer.train(corpus(), workers=64, batch_size=1000)
+trainer.save('bytepiece.model')
+```
+这里的`order`就是n-gram语言模型的阶，推荐默认`order=6`就好；`max_vocab_size`是词表最大尺寸，注意由于去冗的原因，最后得到的词表不一定精确等于max_vocab_size，而是回略少于；`min_count`则是token最低出现频数，数据量大时可以适当调大，一般不会明显影响训练结果；`workers`是并行训练的进程数，可以跑满机器的所有核心；`batch_size`是批大小，不会影响训练结果，一般情况下不用改，如果发现CPU利用率不满可以适当调大。
+
+### 分词
+
+训练完成后，参考使用方式：
+```python
+from bytepiece import Tokenizer
+
+tokenizer = Tokenizer('bytepiece.model')
+text = u'今天天气不错'
+
+tokens = tokenizer.tokenize(text)  # 返回bytes的list
+print(b' '.join(tokens).decode(errors='ignore'))  # 可视化分词结果
+
+ids = tokenizer.encode(text)  # 返回tokens对应的ids
+print(tokenizer.decode(ids))  # 重新将ids解码为unicode文本
+```
+## 对比
+
 ## 引用
 
+```
+@misc{bytepiece2023,
+  title={BytePiece: a more pure and effective tokenizer},
+  author={Jianlin Su},
+  year={2023},
+  howpublished={\url{https://github.com/bojone/bytepiece}},
+}
+```
+
 ## 交流
+QQ群：67729435，微信群请加机器人spaces_ac_cn
+
