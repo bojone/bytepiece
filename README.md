@@ -22,7 +22,7 @@ BytePiece构思了新的基于Byte-based N-gram Language Model（BNLM）的训�
 
 ## 安装
 
-BytePiece使用了[pyahocorasick](https://github.com/WojciechMula/pyahocorasick)来加速训练过程。由于BytePiece是Byte-based的，而PyPi上的pyahocorasick是Unicode-based的，所以不能直接用，需要参考如下方式安装Byte-based版的pyahocorasick：
+BytePiece只能运行在Python3上，使用了[pyahocorasick](https://github.com/WojciechMula/pyahocorasick)来加速训练过程。由于BytePiece是Byte-based的，而PyPi上的pyahocorasick是Unicode-based的，所以不能直接用，需要参考如下方式安装Byte-based版的pyahocorasick：
 ```bash
 # 如果已经安装，请先卸载
 pip uninstall pyahocorasick
