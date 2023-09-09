@@ -102,7 +102,7 @@ print(tokenizer.decode(ids))  # 重新将ids解码为unicode文本
 
 ## 下载
 
-在38G中英混合语料上训练的两个模型：
+在38G中英混合语料（中英比为3:5）上训练的两个模型：
 
 |  | vocab size | 压缩率 (bytes/token) |
 | :----: | :----: | :----: |
