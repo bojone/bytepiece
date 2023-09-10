@@ -30,9 +30,13 @@ pip uninstall pyahocorasick
 # 直接从git编译安装，注意要传入环境变量AHOCORASICK_BYTES
 AHOCORASICK_BYTES=1 pip install git+https://github.com/WojciechMula/pyahocorasick.git
 ```
-安装完pyahocorasick之后，就可以用pip安装BytePiece了：
+然后安装Cython：
 ```bash
-pip install bytepiece==0.1.0
+pip install Cython
+```
+安装完之后，就可以用pip安装BytePiece了：
+```bash
+pip install bytepiece==0.2.0
 ```
 
 ## 使用
