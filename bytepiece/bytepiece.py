@@ -269,14 +269,18 @@ class Tokenizer:
         self._automaton.make_automaton()
 
     def _tokenize(self, text):
-        routes = [[0, []]] + [[-np.inf, []] for _ in text]
+        routes = [[0, None]] + [[-np.inf, None] for _ in text]
         for e, (k, v) in self._automaton.iter(text):
             s, e = e - k + 1, e + 1
             score = routes[s][0] + v
             if score > routes[e][0]:
-                routes[e][0] = score
-                routes[e][1] = routes[s][1] + [text[s:e]]
-        return routes[-1][1]
+                routes[e] = [score, s]
+        e, tokens = len(text), []
+        while text:
+            s = routes[e][1]
+            tokens.append(text[s:e])
+            text, e = text[:s], s
+        return tokens[::-1]
 
     def tokenize(self, text):
         return list(chain(*[self._tokenize(t) for t in normalize(text)]))
