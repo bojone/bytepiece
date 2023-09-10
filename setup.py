@@ -13,7 +13,7 @@ setup(
     url='https://github.com/bojone/bytepiece',
     author='bojone',
     author_email='bojone@spaces.ac.cn',
-    install_requires=['Cython', 'numpy', 'tqdm'],
+    install_requires=['numpy', 'tqdm'],
     packages=find_packages(),
     ext_modules=cythonize('bytepiece/*.pyx'),
     package_data={'bytepiece': ['*.pyx']}
