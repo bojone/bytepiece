@@ -9,6 +9,7 @@ from tqdm import tqdm, trange
 from base64 import b64encode, b64decode
 from multiprocessing import Pool, Queue
 import ahocorasick
+from . import faster
 
 
 def normalize(text, maxlen=0):
@@ -269,18 +270,7 @@ class Tokenizer:
         self._automaton.make_automaton()
 
     def _tokenize(self, text):
-        routes = [[0, None]] + [[-np.inf, None] for _ in text]
-        for e, (k, v) in self._automaton.iter(text):
-            s, e = e - k + 1, e + 1
-            score = routes[s][0] + v
-            if score > routes[e][0]:
-                routes[e] = [score, s]
-        e, tokens = len(text), []
-        while text:
-            s = routes[e][1]
-            tokens.append(text[s:e])
-            text, e = text[:s], s
-        return tokens[::-1]
+        return faster._tokenize(text, self._automaton.iter(text))
 
     def tokenize(self, text):
         return list(chain(*[self._tokenize(t) for t in normalize(text)]))
