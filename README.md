@@ -104,6 +104,8 @@ print(tokenizer.decode(ids))  # 重新将ids解码为unicode文本
 
 压缩率的单位是“bytes/token”，即平均每个token对应的字节数；速度的单位是“M bytes/second”，即平均每秒可以切分的字节数（以百万为单位）。其他细节请参考[这里](https://kexue.fm/archives/9752#%E6%95%88%E6%9E%9C%E6%B5%8B%E8%AF%95)。
 
+第一个表格的数据集平均长度较短，BytePiece同时慢于SP-BPE和SP-Unigram；在第二个表格中，语料的平均长度普遍更长，出现了BytePiece的速度优于SP-BPE的结果。这说明BPE的分词速度受长度影响比较明显，也说明经过Cython加速的BytePiece分词速度，速度上已经可以跟SentencePiece相比较。
+
 ## 下载
 
 在38G中英混合语料（中英比为3:5）上训练的两个模型：
