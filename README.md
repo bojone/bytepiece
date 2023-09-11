@@ -110,8 +110,8 @@ print(tokenizer.decode(ids))  # 重新将ids解码为unicode文本
 
 |  | vocab size | 压缩率 (bytes/token) |
 | :----: | :----: | :----: |
-| [bytepiece_80k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece_80k.zip) | 79,934 | 4.79 |
-| [bytepiece_160k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece_160k.zip) | 159,995 | 4.94 |
+| [bytepiece_80k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece_80k.zip) | 79,896 | 5.09 |
+| [bytepiece_160k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece_160k.zip) | 159,896 | 5.34 |
 
 
 ## 引用
