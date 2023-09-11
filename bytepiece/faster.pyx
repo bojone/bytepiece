@@ -2,12 +2,12 @@
 from libc.math cimport INFINITY
 
 
-def _tokenize(bytes text, dag):
+def _tokenize(self, bytes text):
     cdef int e, k, s
     cdef float v, score
     cdef list routes = [(0, None)] + [(-INFINITY, None) for _ in text]
     cdef list tokens = []
-    for e, (k, v) in dag:
+    for e, (k, v) in self._automaton.iter(text):
         s, e = e - k + 1, e + 1
         score = routes[s][0] + v
         if score > routes[e][0]:
