@@ -76,14 +76,16 @@ class Trainer:
             for i in range(j, len(text)):
                 nodes[i, j] = self.ngrams[j + 1].get(text[i - j:i + 1], -np.inf)
         # Viterbi
-        orders = routes = np.arange(self.order).reshape((1, -1))
-        scores = nodes[0]
+        routes = np.zeros((len(text) - 1, self.order), dtype='int32')
         for i in range(1, len(nodes)):
-            scores = scores[:, None] + self.trans + nodes[i]
-            routes = np.concatenate([routes[:, scores.argmax(0)], orders])
-            scores = scores.max(0)
-        opt_route = routes[:, scores.argmax()]
+            scores = nodes[i - 1][:, None] + self.trans + nodes[i]
+            routes[i - 1] = scores.argmax(0)
+            nodes[i] = scores.max(0)
         # Output
+        opt_route = [nodes[-1].argmax()]
+        for i in range(1, len(nodes)):
+            opt_route.append(routes[-i][opt_route[-1]])
+        opt_route = np.array(opt_route[::-1])
         opt_route = np.append(np.where(opt_route == 0)[0], len(nodes))
         return [text[s:e] for s, e in zip(opt_route, opt_route[1:])]
 
