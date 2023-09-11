@@ -272,7 +272,7 @@ class Tokenizer:
         self._automaton.make_automaton()
 
     def _tokenize(self, text):
-        return faster._tokenize(text, self._automaton.iter(text))
+        return faster._tokenize(self, text)
 
     def tokenize(self, text):
         return list(chain(*[self._tokenize(t) for t in normalize(text)]))
