@@ -16,7 +16,7 @@ BytePiece是一个Byte-based的Unigram分词器，纯Python实现，更加易读
 
 目前主流的[SentencePiece](https://github.com/google/sentencepiece)，事实上已经基本具备以上特性，但仍存在一些问题。比如：它支持BPE和Unigram两种算法，BPE压缩率往往更高一些，但训练极慢，而且非常耗内存；它还是对文本进行了少许语言相关的预处理的，所以“语言无关”这一点也不够纯粹。此外，它是用C++写的，对于多数用户来说就是黑箱，因此也不利于研究和修改。
 
-BytePiece构思了新的基于Byte-based N-gram Language Model（BNLM）的训练方式，能获得更高压缩率的词表，同时支持多进程训练，同等语料下相比SentencePiece的BPE训练有明显的加速。代码是纯Python，方便大家阅读和二次修改。
+BytePiece构思了新的基于 **Byte-based N-gram Language Model（BNLM）** 的训练方式，能获得更高压缩率的词表，同时支持多进程训练，同等语料下相比SentencePiece的BPE训练有明显的加速。代码是纯Python，方便大家阅读和二次修改。
 
 ## 原理
 
