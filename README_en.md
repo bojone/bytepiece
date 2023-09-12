@@ -16,7 +16,7 @@ An ideal Tokenizer and its training algorithm should have the following characte
 
 The mainstream [SentencePiece](https://github.com/google/sentencepiece) basically has the above characteristics, but there are still some problems. For example, it supports both BPE and Unigram algorithms. BPE often has a higher compression rate, but the training is extremely slow and consumes a lot of memory. Moreover, it does conduct some language-related preprocessing on the text, so it's not purely "language-independent". Besides, it's written in C++, which is a black box for most users, thus not conducive to research and modification.
 
-BytePiece has conceived a new training method based on Byte-based N-gram Language Model (BNLM), which can obtain a higher compression rate vocabulary table, support multiprocessing training, and significantly accelerate compared to SentencePiece's BPE training under the same corpus. The code is pure Python, easy for everyone to read and modify.
+BytePiece has conceived a new training method based on **Byte-based N-gram Language Model (BNLM)** , which can obtain a higher compression rate vocabulary table, support multiprocessing training, and significantly accelerate compared to SentencePiece's BPE training under the same corpus. The code is pure Python, easy for everyone to read and modify.
 
 ## Principle
 
