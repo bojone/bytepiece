@@ -98,7 +98,7 @@ Comparison with small data volume:
 
 Comparison with large data volume:
 
-|  | Training Time↓ | Maximum Memory Usage↓ | Compression Rate (Same Source)↑ | Compression Rate (Different Source)↑ | Tokenization Speed↑ |
+|  | Training Time↓ | Maximum Memory Usage↓ | Compression Rate (Homologous)↑ | Compression Rate (Heterologous)↑ | Tokenization Speed↑ |
 | :----: | :----: | :----: | :----: | :----: | :----: |
 | SP-BPE | 19.21 hours | 97GB | 4.52 | 4.46 | 1.27 |
 | SP-Unigram | 2.02 hours | 384GB | 4.51 | 4.48 | 5.55 |
