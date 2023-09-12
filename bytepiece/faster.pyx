@@ -4,7 +4,7 @@ from libc.math cimport INFINITY
 
 def _tokenize(self, bytes text):
     cdef int e, k, s
-    cdef float v, score
+    cdef double v, score
     cdef list routes = [(0, None)] + [(-INFINITY, None) for _ in text]
     cdef list tokens = []
     for e, (k, v) in self._automaton.iter(text):
