@@ -20,6 +20,8 @@ BytePiece has conceived a new training method based on **Byte-based N-gram Langu
 
 ## Principle
 
+BytePiece is not simply a rewrite of the existing Unigram model based on Byte-based and multiprocessor, but a new training method designed for Unigram, which is one of the key reasons for its higher compression rate.
+
 The new training method is based on the new word discovery algorithm of the N-gram language model, first proposed in the author's blog 7 years ago [《【Chinese Word Segmentation Series】 5. Unsupervised Word Segmentation Based on Language Model》](https://kexue.fm/archives/3956). Please visit the blog for details.
 
 ## Installation
