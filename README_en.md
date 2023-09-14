@@ -40,7 +40,7 @@ pip install Cython
 ```
 After that, you can install BytePiece via pip:
 ```bash
-pip install bytepiece==0.3.0
+pip install bytepiece==0.4.0
 ```
 
 ## Usage
@@ -96,7 +96,7 @@ Comparison with small data volume:
 | :----: | :----: | :----: | :----: | :----: |
 | SP-BPE | 55.3 minutes | 5.2GB | 4.80 | 5.47 |
 | SP-Unigram | 1.6 minutes | 2.5GB | 4.73 | 7.84 |
-| BytePiece | 6.5 minutes | 4.3GB | 5.05 | 2.19 |
+| BytePiece | 6.5 minutes | 4.3GB | 5.05 | 2.50 |
 
 Comparison with large data volume:
 
@@ -104,7 +104,7 @@ Comparison with large data volume:
 | :----: | :----: | :----: | :----: | :----: | :----: |
 | SP-BPE | 19.21 hours | 97GB | 4.52 | 4.46 | 1.27 |
 | SP-Unigram | 2.02 hours | 384GB | 4.51 | 4.48 | 5.55 |
-| BytePiece | 2.24 hours | 51GB | 5.39 | 4.51 | 1.78 |
+| BytePiece | 2.24 hours | 51GB | 5.39 | 4.51 | 1.92 |
 
 The unit of compression rate is "bytes/token", i.e., the average number of bytes per token; the unit of speed is "M bytes/second", i.e., the average number of bytes that can be segmented per second (in millions). For other details, please refer to [here](https://kexue.fm/archives/9752#%E6%95%88%E6%9E%9C%E6%B5%8B%E8%AF%95).
 

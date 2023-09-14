@@ -1,19 +1,37 @@
 # cython: language_level=3
-from libc.math cimport INFINITY
+from libc.time cimport time
+from libc.stdlib cimport RAND_MAX, rand, srand
+from libc.math cimport INFINITY, exp
+
+srand(time(NULL))
 
 
-def _tokenize(self, bytes text):
+cdef inline double random():
+    return rand() / float(RAND_MAX)
+
+
+cdef inline double sigmoid(double x):
+    if x >= 0:
+        return 1. / (1. + exp(-x))
+    else:
+        return 1. - 1. / (1. + exp(x))
+
+
+def _tokenize(self, bytes text, double alpha=0):
     cdef int e, k, s
     cdef double v, score
-    cdef list routes = [(0, None)] + [(-INFINITY, None) for _ in text]
+    cdef list routes = list(range(len(text) + 1))
+    cdef list scores = [0] + [-INFINITY] * len(text)
     cdef list tokens = []
     for e, (k, v) in self._automaton.iter(text):
         s, e = e - k + 1, e + 1
-        score = routes[s][0] + v
-        if score > routes[e][0]:
-            routes[e] = score, s
+        score = scores[s] + v
+        if alpha <= 0 and score > scores[e]:
+            scores[e], routes[e] = score, s
+        elif alpha > 0 and random() < sigmoid((score - scores[e]) * alpha):
+            scores[e], routes[e] = score, s
     while text:
-        s = routes[e][1]
+        s = routes[e]
         tokens.append(text[s:e])
         text, e = text[:s], s
     return tokens[::-1]

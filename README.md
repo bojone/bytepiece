@@ -40,7 +40,7 @@ pip install Cython
 ```
 安装完之后，就可以用pip安装BytePiece了：
 ```bash
-pip install bytepiece==0.3.1
+pip install bytepiece==0.4.0
 ```
 
 ## 使用
@@ -96,7 +96,7 @@ print(tokenizer.decode(ids))  # 重新将ids解码为unicode文本
 | :----: | :----: | :----: | :----: | :----: |
 | SP-BPE | 55.3分钟 | 5.2GB | 4.80 | 5.47 |
 | SP-Unigram | 1.6分钟 | 2.5GB | 4.73 | 7.84 |
-| BytePiece | 6.5分钟 | 4.3GB | 5.05 | 2.19 |
+| BytePiece | 6.5分钟 | 4.3GB | 5.05 | 2.50 |
 
 大数据量对比：
 
@@ -104,7 +104,7 @@ print(tokenizer.decode(ids))  # 重新将ids解码为unicode文本
 | :----: | :----: | :----: | :----: | :----: | :----: |
 | SP-BPE | 19.21小时 | 97GB | 4.52 | 4.46 | 1.27 |
 | SP-Unigram | 2.02小时 | 384GB | 4.51 | 4.48 | 5.55 |
-| BytePiece | 2.24小时 | 51GB | 5.39 | 4.51 | 1.78 |
+| BytePiece | 2.24小时 | 51GB | 5.39 | 4.51 | 1.92 |
 
 压缩率的单位是“bytes/token”，即平均每个token对应的字节数；速度的单位是“M bytes/second”，即平均每秒可以切分的字节数（以百万为单位）。其他细节请参考[这里](https://kexue.fm/archives/9752#%E6%95%88%E6%9E%9C%E6%B5%8B%E8%AF%95)。
 

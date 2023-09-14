@@ -271,11 +271,11 @@ class Tokenizer:
             self._automaton.add_word(k, (len(k), np.log(v) - log_total))
         self._automaton.make_automaton()
 
-    def _tokenize(self, text):
-        return faster._tokenize(self, text)
+    def _tokenize(self, text, alpha=0):
+        return faster._tokenize(self, text, alpha)
 
-    def tokenize(self, text):
-        return list(chain(*[self._tokenize(t) for t in normalize(text)]))
+    def tokenize(self, text, alpha=0):
+        return list(chain(*[self._tokenize(t, alpha) for t in normalize(text)]))
 
     def piece_to_id(self, p):
         return self._piece2id[p]
@@ -289,8 +289,8 @@ class Tokenizer:
     def ids_to_pieces(self, ids):
         return [self._id2piece[i] for i in ids]
 
-    def encode(self, text, add_bos=False, add_eos=False):
-        pieces = [self._piece2id[p] for p in self.tokenize(text)]
+    def encode(self, text, add_bos=False, add_eos=False, alpha=0):
+        pieces = [self._piece2id[p] for p in self.tokenize(text, alpha)]
         if add_bos:
             pieces = [1] + pieces
         if add_eos:
