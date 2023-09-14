@@ -86,6 +86,9 @@ print(b' '.join(tokens).decode(errors='ignore'))  # 可视化分词结果
 
 ids = tokenizer.encode(text)  # 返回tokens对应的ids
 print(tokenizer.decode(ids))  # 重新将ids解码为unicode文本
+
+tokens = tokenizer.tokenize(text, alpha=0.2)  # 随机tokenize
+print(b' '.join(tokens).decode(errors='ignore'))  # 可视化分词结果
 ```
 
 ## 对比
