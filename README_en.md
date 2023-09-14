@@ -86,6 +86,9 @@ print(b' '.join(tokens).decode(errors='ignore'))  # Visualize the tokenization r
 
 ids = tokenizer.encode(text)  # Returns the ids corresponding to tokens
 print(tokenizer.decode(ids))  # Decode the ids back to unicode text
+
+tokens = tokenizer.tokenize(text, alpha=0.2)  # Random Tokenization
+print(b' '.join(tokens).decode(errors='ignore'))  # Visualize the tokenization result
 ```
 
 ## Comparison
