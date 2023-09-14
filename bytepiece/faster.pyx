@@ -17,11 +17,11 @@ cdef inline double sigmoid(double x):
         return 1. - 1. / (1. + exp(x))
 
 
-def _tokenize(self, bytes text, double alpha=0):
+def _tokenize(self, bytes text, double alpha=-1):
     cdef int e, k, s
     cdef double v, score
-    cdef list routes = list(range(len(text) + 1))
     cdef list scores = [0] + [-INFINITY] * len(text)
+    cdef list routes = list(range(len(text) + 1))
     cdef list tokens = []
     for e, (k, v) in self._automaton.iter(text):
         s, e = e - k + 1, e + 1
