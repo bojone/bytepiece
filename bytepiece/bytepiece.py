@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-# Reference: https://kexue.fm/archives/9752
+# Reference 1: https://kexue.fm/archives/9752
+# Reference 2: https://kexue.fm/archives/9768
 
 import numpy as np
 import re, json, unicodedata
@@ -29,9 +30,12 @@ class Trainer:
         self, order=6, max_vocab_size=10000, max_piece_length=36, min_count=2
     ):
         self.order = order
-        self.max_vocab_size = max_vocab_size
         self.max_piece_length = max_piece_length
         self.min_count = min_count
+        if isinstance(max_vocab_size, list):
+            self.max_vocab_size = sorted(max_vocab_size)[::-1]
+        else:
+            self.max_vocab_size = [max_vocab_size]
 
     def count_ngrams(self, texts):
         ngrams = [{} for i in range(self.order + 1)]
@@ -135,25 +139,29 @@ class Trainer:
             if len_keep_pieces == len(keep_pieces):
                 break
         # Prune by max_vocab_size
-        if len(keep_pieces) <= self.max_vocab_size - 3:
-            return keep_pieces
-        pieces = sorted(
-            keep_pieces.items(),
-            key=lambda t: (len(t[0]) > 1, -t[1], -len(t[0]), t[0])
-        )
-        keep_pieces = dict(pieces[:self.max_vocab_size - 3])
-        drop_pieces = tqdm(pieces[self.max_vocab_size - 3:], desc=desc, ncols=0)
-        for k, v in split_pieces(keep_pieces, drop_pieces).items():
-            keep_pieces[k] += v
-        # Prune wasted pieces
-        while True:
-            len_keep_pieces = len(keep_pieces)
-            drop_pieces = tqdm(keep_pieces.items(), desc=desc, ncols=0)
-            keep_pieces = split_pieces(keep_pieces, drop_pieces)
-            if len_keep_pieces == len(keep_pieces):
-                break
+        final_pieces = []
+        for max_vocab_size in self.max_vocab_size:
+            if len(keep_pieces) <= max_vocab_size - 3:
+                final_pieces.append(keep_pieces)
+                continue
+            pieces = sorted(
+                keep_pieces.items(),
+                key=lambda t: (len(t[0]) > 1, -t[1], -len(t[0]), t[0])
+            )
+            keep_pieces = dict(pieces[:max_vocab_size - 3])
+            drop_pieces = tqdm(pieces[max_vocab_size - 3:], desc=desc, ncols=0)
+            for k, v in split_pieces(keep_pieces, drop_pieces).items():
+                keep_pieces[k] += v
+            # Prune wasted pieces
+            while True:
+                len_keep_pieces = len(keep_pieces)
+                drop_pieces = tqdm(keep_pieces.items(), desc=desc, ncols=0)
+                keep_pieces = split_pieces(keep_pieces, drop_pieces)
+                if len_keep_pieces == len(keep_pieces):
+                    break
+            final_pieces.append(keep_pieces)
         # Output
-        return keep_pieces
+        return final_pieces
 
     def norm(self, texts):
         for text in texts:
@@ -176,16 +184,25 @@ class Trainer:
             self.pieces = self.count_pieces(texts2)
             self.pieces = self.prune_pieces(self.pieces)
 
-    def dump(self, pieces=None):
-        pieces = (pieces or self.pieces).items()
-        pieces = sorted(pieces, key=lambda t: (len(t[0]), t[0]))
+    def dump(self, pieces):
+        pieces = sorted(pieces.items(), key=lambda t: (len(t[0]), t[0]))
         return {
             b64encode(k).decode(): [i + 3, k.decode(errors='ignore'), v]
             for i, (k, v) in enumerate(pieces)
         }
 
     def save(self, path):
-        json.dump(self.dump(), open(path, 'w'), indent=4, ensure_ascii=False)
+        if len(self.pieces) == 1:
+            paths = [path]
+        else:
+            paths = ['%s.%s' % (path, size) for size in self.max_vocab_size]
+        for pieces, path in zip(self.pieces, paths):
+            json.dump(
+                self.dump(pieces),
+                open(path, 'w'),
+                indent=4,
+                ensure_ascii=False
+            )
 
     def pcount(self, inputs, count, merge, init, desc, workers, batch_size):
         def worker_func(in_queue, out_queue):
