@@ -3,7 +3,9 @@
 # BytePiece
 BytePiece is a Byte-based Unigram tokenizer, implemented purely in Python, making it more readable and expandable. Due to the use of a new training algorithm, its compression rate is often higher than existing Tokenizers, and it also supports multiprocessing acceleration for training. Moreover, it directly operates on the UTF-8 Bytes of the text, with almost no preprocessing, making it more pure and language-independent.
 
-Blog: https://kexue.fm/archives/9752
+Blog: 
+- https://kexue.fm/archives/9752
+- https://kexue.fm/archives/9768
 
 ## Characteristics
 
