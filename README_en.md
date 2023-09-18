@@ -124,6 +124,18 @@ Two models trained on a 38G mixed Chinese-English corpus (Chinese to English rat
 | [bytepiece_80k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece_80k.zip) | 79,896 | 5.09 |
 | [bytepiece_160k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece_160k.zip) | 159,896 | 5.34 |
 
+Five models trained on 185G mixed corpus (Chinese, English, and code corpus ratio is 3:5:0.5) (peak memory 519GB, time consumed 27.7 hours):
+
+|  | vocab size | Compression rate (bytes/token) |
+| :----: | :----: | :----: |
+| [bytepiece.plus.40k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.plus.40k.zip) | 39,843 | 4.63 |
+| [bytepiece.plus.80k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.plus.80k.zip) | 79,812 | 5.13 |
+| [bytepiece.plus.160k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.plus.160k.zip) | 159,846 | 5.56 |
+| [bytepiece.plus.240k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.plus.240k.zip) | 239,858 | 5.74 |
+| [bytepiece.plus.320k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.plus.320k.zip) | 319,768 | 5.83 |
+
+As can be seen, on a fixed corpus ratio, when the vocab_size reaches a certain level, increasing the vocab_size can no longer bring a significant improvement in compression rate.
+
 ## Citation
 
 ```
