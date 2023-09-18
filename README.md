@@ -124,7 +124,7 @@ print(b' '.join(tokens).decode(errors='ignore'))  # 可视化分词结果
 | [bytepiece_80k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece_80k.zip) | 79,896 | 5.09 |
 | [bytepiece_160k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece_160k.zip) | 159,896 | 5.34 |
 
-在185G混合语料（中、英、代码语料比为3:5:0.5）上训练的五个模型（训练内存峰值519GB，耗时27.7小时）：
+在185G混合语料（中、英、代码语料比为3:5:0.5）上训练的五个模型（内存峰值519GB，耗时27.7小时）：
 
 |  | vocab size | 压缩率 (bytes/token) |
 | :----: | :----: | :----: |
