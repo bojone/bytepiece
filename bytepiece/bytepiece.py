@@ -13,13 +13,20 @@ import ahocorasick
 from . import faster
 
 
-def normalize(text, maxlen=0):
+def normalize(text, maxlen=0, isolate_digits=False):
     if not isinstance(text, bytes):
         text = unicodedata.normalize('NFC', text).encode()
     if maxlen > 0:
-        return re.findall(b'.{,%d}\n{1,100}|.{1,%d}' % (maxlen, maxlen), text)
+        if isolate_digits:
+            regex = b'\d|[^\n\d]{,%d}\n{1,100}|[^\n\d]{1,%d}' % (maxlen, maxlen)
+        else:
+            regex = b'.{,%d}\n{1,100}|.{1,%d}' % (maxlen, maxlen)
     else:
-        return re.findall(b'.*\n+|.+', text)
+        if isolate_digits:
+            regex = b'\d|[^\n\d]*\n+|[^\n\d]+'
+        else:
+            regex = b'.*\n+|.+'
+    return re.findall(regex, text)
 
 
 class Trainer:
@@ -27,11 +34,17 @@ class Trainer:
     Reference: https://kexue.fm/archives/3956
     """
     def __init__(
-        self, order=6, max_vocab_size=10000, max_piece_length=36, min_count=2
+        self,
+        order=6,
+        max_vocab_size=10000,
+        max_piece_length=36,
+        min_count=2,
+        isolate_digits=False
     ):
         self.order = order
         self.max_piece_length = max_piece_length
         self.min_count = min_count
+        self.isolate_digits = isolate_digits
         if isinstance(max_vocab_size, list):
             self.max_vocab_size = sorted(max_vocab_size)[::-1]
         else:
@@ -165,7 +178,7 @@ class Trainer:
 
     def norm(self, texts):
         for text in texts:
-            for t in normalize(text, 10000):
+            for t in normalize(text, 10000, self.isolate_digits):
                 yield t
 
     def train(self, texts, workers=1, batch_size=1000):
