@@ -133,8 +133,13 @@ Five models trained on 185G mixed corpus (Chinese, English, and code corpus rati
 | [bytepiece.plus.160k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.plus.160k.zip) | 159,846 | 5.56 |
 | [bytepiece.plus.240k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.plus.240k.zip) | 239,858 | 5.74 |
 | [bytepiece.plus.320k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.plus.320k.zip) | 319,768 | 5.83 |
+| [bytepiece.id.plus.40k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.id.plus.40k.zip) | 39,857 | 4.51 |
+| [bytepiece.id.plus.80k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.id.plus.80k.zip) | 79,827 | 4.96 |
+| [bytepiece.id.plus.160k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.id.plus.160k.zip) | 159,868 | 5.34 |
+| [bytepiece.id.plus.240k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.id.plus.240k.zip) | 239,888 | 5.50 |
+| [bytepiece.id.plus.320k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.id.plus.320k.zip) | 319,808 | 5.58 |
 
-As can be seen, on a fixed corpus ratio, when the vocab_size reaches a certain level, increasing the vocab_size can no longer bring a significant improvement in compression rate.
+Here "id" stands for "isolate digits," which means separating Arabic numerals individually. As can be seen, on a fixed corpus ratio, when the vocab_size reaches a certain level, increasing the vocab_size can no longer bring a significant improvement in compression rate.
 
 ## Citation
 
