@@ -302,7 +302,10 @@ class Tokenizer:
         self._automaton.make_automaton()
 
     def _tokenize(self, text, alpha=-1):
-        return faster._tokenize(self, text, alpha)
+        if alpha < 0:
+            return faster.viterbi_decode(self, text)
+        else:
+            return faster.viterbi_sample(self, text, alpha)
 
     def tokenize(self, text, alpha=-1):
         return list(chain(*[self._tokenize(t, alpha) for t in normalize(text)]))
