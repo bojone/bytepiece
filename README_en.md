@@ -18,13 +18,15 @@ An ideal Tokenizer and its training algorithm should have the following characte
 
 The mainstream [SentencePiece](https://github.com/google/sentencepiece) basically has the above characteristics, but there are still some problems. For example, it supports both BPE and Unigram algorithms. BPE often has a higher compression rate, but the training is extremely slow and consumes a lot of memory. Moreover, it does conduct some language-related preprocessing on the text, so it's not purely "language-independent". Besides, it's written in C++, which is a black box for most users, thus not conducive to research and modification.
 
-BytePiece has conceived a new training method based on **Byte-based N-gram Language Model (BNLM)** , which can obtain a higher compression rate vocabulary table, support multiprocessing training, and significantly accelerate compared to SentencePiece's BPE training under the same corpus. The code is pure Python, easy for everyone to read and modify.
+BytePiece has conceived a new training method based on **Byte-based N-gram Language Model (BNLM)** , which can obtain a higher compression rate vocabulary table, support multiprocessing training, and significantly accelerate compared to SentencePiece's BPE training under the same corpus. The code is pure Python, easy for everyone to read and modify. In addition, BytePiece also provides a more efficient random segmentation algorithm than [Subword Regularization](https://arxiv.org/abs/1804.10959).
 
 ## Principle
 
 BytePiece is not simply a rewrite of the existing Unigram model based on Byte-based and multiprocessor, but a new training method designed for Unigram, which is one of the key reasons for its higher compression rate.
 
 The new training method is based on the new word discovery algorithm of the N-gram language model, first proposed in the author's blog 7 years ago [《【Chinese Word Segmentation Series】 5. Unsupervised Word Segmentation Based on Language Model》](https://kexue.fm/archives/3956). Please visit the blog for details.
+
+For the new random segmentation algorithm, you can refer to ["A Brief Exploration of Random Segmentation: From Viterbi Decoding to Viterbi Sampling"](https://kexue.fm/archives/9768) and ["Further Exploration of Random Segmentation: From Viterbi Sampling to Perfect Sampling Algorithm"](https://kexue.fm/archives/9811).
 
 ## Installation
 
@@ -42,7 +44,7 @@ pip install Cython
 ```
 After that, you can install BytePiece via pip:
 ```bash
-pip install bytepiece==0.4.1
+pip install bytepiece==0.5.0
 ```
 
 ## Usage

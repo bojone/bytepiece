@@ -18,13 +18,15 @@ BytePiece是一个Byte-based的Unigram分词器，纯Python实现，更加易读
 
 目前主流的[SentencePiece](https://github.com/google/sentencepiece)，事实上已经基本具备以上特性，但仍存在一些问题。比如：它支持BPE和Unigram两种算法，BPE压缩率往往更高一些，但训练极慢，而且非常耗内存；它还是对文本进行了少许语言相关的预处理的，所以“语言无关”这一点也不够纯粹。此外，它是用C++写的，对于多数用户来说就是黑箱，因此也不利于研究和修改。
 
-BytePiece构思了新的基于 **Byte-based N-gram Language Model（BNLM）** 的训练方式，能获得更高压缩率的词表，同时支持多进程训练，同等语料下相比SentencePiece的BPE训练有明显的加速。代码是纯Python，方便大家阅读和二次修改。
+BytePiece构思了新的基于 **Byte-based N-gram Language Model（BNLM）** 的训练方式，能获得更高压缩率的词表，同时支持多进程训练，同等语料下相比SentencePiece的BPE训练有明显的加速。代码是纯Python，方便大家阅读和二次修改。此外，BytePiece还提供了比[Subword Regularization](https://arxiv.org/abs/1804.10959)更加高效的随机分词算法。
 
 ## 原理
 
 BytePiece并非单纯基于Byte-based和多进程来重写已有的Unigram模型，而是为Unigram设计了新的训练方案，这是它压缩率更高的关键原因之一。
 
 新的训练方案基于N-gram语言模型的新词发现算法，首次提出于笔者7年前的博客[《【中文分词系列】 5. 基于语言模型的无监督分词》](https://kexue.fm/archives/3956)，细节请移步阅读。
+
+至于新的随机分词算法，则可以参考[《随机分词浅探：从Viterbi Decoding到Viterbi Sampling》](https://kexue.fm/archives/9768)和[《随机分词再探：从Viterbi Sampling到完美采样算法》](https://kexue.fm/archives/9811)。
 
 ## 安装
 
@@ -42,7 +44,7 @@ pip install Cython
 ```
 安装完之后，就可以用pip安装BytePiece了：
 ```bash
-pip install bytepiece==0.4.1
+pip install bytepiece==0.5.0
 ```
 
 ## 使用
