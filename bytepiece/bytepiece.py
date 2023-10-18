@@ -94,9 +94,8 @@ class Trainer:
             for i in range(j, len(text)):
                 nodes[i, j] = self.ngrams[j + 1].get(text[i - j:i + 1], -np.inf)
         if self.ensure_unicode:
-            edges = [0] + [len(c.encode()) for c in text.decode()[:-1]]
-            edges = np.setdiff1d(np.arange(len(text)), np.cumsum(edges), True)
-            nodes[edges, 0] -= np.inf
+            text_array = np.frombuffer(text, dtype=np.uint8)
+            nodes[(text_array >= 128) & (text_array < 192), 0] -= np.inf
         # Viterbi
         routes = np.zeros((len(text) - 1, self.order), dtype='int32')
         for i in range(1, len(nodes)):
