@@ -76,6 +76,11 @@ trainer.save('bytepiece.model')
 ```
 这里的`order`就是n-gram语言模型的阶，推荐默认`order=6`就好；`max_vocab_size`是词表最大尺寸，注意由于去冗的原因，最后得到的词表不一定精确等于max_vocab_size，而是有可能会略少于；`min_count`则是token最低出现频数，数据量大时可以适当调大，一般不会明显影响训练结果；`workers`是并行训练的进程数，可以跑满机器的所有核心；`batch_size`是批大小，不会影响训练结果，一般情况下不用改，如果发现CPU利用率不满可以适当调大。
 
+此外，`0.4.1`版本开始新增`isolate_digits`参数，默认为`False`，当改为`True`时，保证将所有阿拉伯数字都切分为单个字符：
+```python
+trainer = Trainer(order=6, max_vocab_size=100000, min_count=32, isolate_digits=True)
+```
+
 ### 分词
 
 训练完成后，参考使用方式：
