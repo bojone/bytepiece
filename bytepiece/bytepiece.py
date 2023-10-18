@@ -179,7 +179,7 @@ class Trainer:
 
     def norm(self, texts):
         for text in texts:
-            for t in normalize(text, 5000, self.isolate_digits):
+            for t in normalize(text, 10000, self.isolate_digits):
                 yield t
 
     def train(self, texts, workers=1, batch_size=1000):
