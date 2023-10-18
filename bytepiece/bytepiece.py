@@ -14,19 +14,18 @@ from . import faster
 
 
 def normalize(text, maxlen=0, isolate_digits=False):
-    if not isinstance(text, bytes):
-        text = unicodedata.normalize('NFC', text).encode()
+    text = unicodedata.normalize('NFC', text)
     if maxlen > 0:
         if isolate_digits:
-            regex = b'\d|[^\n\d]{,%d}\n{1,100}|[^\n\d]{1,%d}' % (maxlen, maxlen)
+            regex = '\d|[^\n\d]{,%d}\n{1,100}|[^\n\d]{1,%d}' % (maxlen, maxlen)
         else:
-            regex = b'.{,%d}\n{1,100}|.{1,%d}' % (maxlen, maxlen)
+            regex = '.{,%d}\n{1,100}|.{1,%d}' % (maxlen, maxlen)
     else:
         if isolate_digits:
-            regex = b'\d|[^\n\d]*\n+|[^\n\d]+'
+            regex = '\d|[^\n\d]*\n+|[^\n\d]+'
         else:
-            regex = b'.*\n+|.+'
-    return re.findall(regex, text)
+            regex = '.*\n+|.+'
+    return [t.encode() for t in re.findall(regex, text)]
 
 
 class Trainer:
@@ -39,12 +38,14 @@ class Trainer:
         max_vocab_size=10000,
         max_piece_length=36,
         min_count=2,
-        isolate_digits=False
+        isolate_digits=False,
+        ensure_unicode=False
     ):
         self.order = order
         self.max_piece_length = max_piece_length
         self.min_count = min_count
         self.isolate_digits = isolate_digits
+        self.ensure_unicode = ensure_unicode
         if isinstance(max_vocab_size, list):
             self.max_vocab_size = sorted(max_vocab_size)[::-1]
         else:
@@ -92,6 +93,10 @@ class Trainer:
         for j in range(self.order):
             for i in range(j, len(text)):
                 nodes[i, j] = self.ngrams[j + 1].get(text[i - j:i + 1], -np.inf)
+        if self.ensure_unicode:
+            edges = [0] + [len(c.encode()) for c in text.decode()[:-1]]
+            edges = np.setdiff1d(np.arange(len(text)), np.cumsum(edges), True)
+            nodes[edges, 0] -= np.inf
         # Viterbi
         routes = np.zeros((len(text) - 1, self.order), dtype='int32')
         for i in range(1, len(nodes)):
@@ -105,9 +110,6 @@ class Trainer:
         opt_route = np.array(opt_route[::-1])
         opt_route = np.append(np.where(opt_route == 0)[0], len(nodes))
         return [text[s:e] for s, e in zip(opt_route, opt_route[1:])]
-
-    def tokenize(self, text):
-        return list(chain(*[self._tokenize(t) for t in normalize(text)]))
 
     def count_pieces(self, texts):
         pieces = {}
@@ -178,7 +180,7 @@ class Trainer:
 
     def norm(self, texts):
         for text in texts:
-            for t in normalize(text, 10000, self.isolate_digits):
+            for t in normalize(text, 5000, self.isolate_digits):
                 yield t
 
     def train(self, texts, workers=1, batch_size=1000):
