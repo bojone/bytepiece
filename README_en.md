@@ -76,6 +76,15 @@ trainer.save('bytepiece.model')
 ```
 Here, `order` is the order of the n-gram language model, it is recommended to keep the default `order=6`; `max_vocab_size` is the maximum size of the vocabulary, note that due to redundancy removal, the final vocabulary may not precisely equal max_vocab_size, it might be slightly less; `min_count` is the minimum occurrence frequency of tokens, when the data volume is large, it can be appropriately increased, it generally doesn't significantly affect the training results; `workers` is the number of parallel training processes, which can utilize all cores of the machine; `batch_size` is the batch size, it won't affect the training results, it usually doesn't need to be changed, if you find the CPU utilization is not full, you can appropriately increase it.
 
+In addition, starting from version `0.4.1`, a new parameter `isolate_digits` is added, which defaults to `False`. When set to `True`, it ensures that all Arabic numbers are split into individual characters:
+```python
+trainer = Trainer(order=6, max_vocab_size=100000, min_count=32, isolate_digits=True)
+```
+Starting from version `0.6.0`, a new parameter `ensure_unicode` is added, which can ensure that all multi-byte tokens can be restored to unicode. Since the current results show that enabling `ensure_unicode` often results in a higher compression rate for the trained model, it is set to `True` by default. When set to `False` (equivalent to versions before 0.6.0), multi-byte tokens may need `decode(errors='ignore')` to be restored to unicode:
+```python
+trainer = Trainer(order=6, max_vocab_size=100000, min_count=32, ensure_unicode=True)
+```
+
 ### Tokenization
 
 After the training is completed, refer to the following usage:
@@ -119,29 +128,7 @@ In the first table, the dataset has a shorter average length, BytePiece is slowe
 
 ## Download
 
-Two models trained on a 38G mixed Chinese-English corpus (Chinese to English ratio is 3:5):
-
-|  | vocab size | Compression Rate (bytes/token) |
-| :----: | :----: | :----: |
-| [bytepiece_80k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece_80k.zip) | 79,896 | 5.09 |
-| [bytepiece_160k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece_160k.zip) | 159,896 | 5.34 |
-
-Five models trained on 185G mixed corpus (Chinese, English, and code corpus ratio is 3:5:0.5) (peak memory 519GB, time consumed 27.7 hours):
-
-|  | vocab size | Compression rate (bytes/token) |
-| :----: | :----: | :----: |
-| [bytepiece.plus.40k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.plus.40k.zip) | 39,843 | 4.63 |
-| [bytepiece.plus.80k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.plus.80k.zip) | 79,812 | 5.13 |
-| [bytepiece.plus.160k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.plus.160k.zip) | 159,846 | 5.56 |
-| [bytepiece.plus.240k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.plus.240k.zip) | 239,858 | 5.74 |
-| [bytepiece.plus.320k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.plus.320k.zip) | 319,768 | 5.83 |
-| [bytepiece.id.plus.40k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.id.plus.40k.zip) | 39,857 | 4.51 |
-| [bytepiece.id.plus.80k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.id.plus.80k.zip) | 79,827 | 4.96 |
-| [bytepiece.id.plus.160k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.id.plus.160k.zip) | 159,868 | 5.34 |
-| [bytepiece.id.plus.240k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.id.plus.240k.zip) | 239,888 | 5.50 |
-| [bytepiece.id.plus.320k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.id.plus.320k.zip) | 319,808 | 5.58 |
-
-Here "id" stands for "isolate digits," which means separating Arabic numerals individually. As can be seen, on a fixed corpus ratio, when the vocab_size reaches a certain level, increasing the vocab_size can no longer bring a significant improvement in compression rate.
+To download the open-source BytePiece model, please go to [models](https://github.com/bojone/bytepiece/tree/main/models).
 
 ## Citation
 
