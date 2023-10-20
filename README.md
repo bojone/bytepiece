@@ -80,7 +80,7 @@ trainer.save('bytepiece.model')
 ```python
 trainer = Trainer(order=6, max_vocab_size=100000, min_count=32, isolate_digits=True)
 ```
-此外，`0.6.0`版本开始新增`ensure_unicode`参数，能够保证所有的多字节token都可以还原为unicode，由于目前结果显示启用`ensure_unicode`后，训练得到的模型压缩率通常还高一些，所以默认为`True`，当改为`False`时（等价于0.6.0之前的版本），多字节token可能需要`decode(errors='ignore')`才能还原为unicode：
+`0.6.0`版本开始新增`ensure_unicode`参数，能够保证所有的多字节token都可以还原为unicode，由于目前结果显示启用`ensure_unicode`后，训练得到的模型压缩率通常还高一些，所以默认为`True`，当改为`False`时（等价于0.6.0之前的版本），多字节token可能需要`decode(errors='ignore')`才能还原为unicode：
 ```python
 trainer = Trainer(order=6, max_vocab_size=100000, min_count=32, ensure_unicode=True)
 ```
