@@ -39,7 +39,7 @@ class Trainer:
         max_piece_length=36,
         min_count=2,
         isolate_digits=False,
-        ensure_unicode=False
+        ensure_unicode=True
     ):
         self.order = order
         self.max_piece_length = max_piece_length
