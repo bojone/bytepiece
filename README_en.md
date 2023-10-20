@@ -44,7 +44,7 @@ pip install Cython
 ```
 After that, you can install BytePiece via pip:
 ```bash
-pip install bytepiece==0.6.0
+pip install bytepiece==0.6.1
 ```
 
 ## Usage
