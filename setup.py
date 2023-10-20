@@ -5,7 +5,7 @@ from Cython.Build import cythonize
 
 setup(
     name='bytepiece',
-    version='0.5.0',
+    version='0.6.0',
     python_requires='>=3',
     description='Smarter Byte-based Tokenizer',
     long_description=open('README_en.md').read(),
