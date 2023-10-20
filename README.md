@@ -80,6 +80,10 @@ trainer.save('bytepiece.model')
 ```python
 trainer = Trainer(order=6, max_vocab_size=100000, min_count=32, isolate_digits=True)
 ```
+此外，`0.6.0`版本开始新增`ensure_unicode`参数，能够保证所有的多字节token都可以还原为unicode，由于目前结果显示启用`ensure_unicode`后，训练得到的模型压缩率通常还高一些，所以默认为`True`，当改为`False`时（等价于0.6.0之前的版本），多字节token可能需要`decode(errors='ignore')`才能还原为unicode：
+```python
+trainer = Trainer(order=6, max_vocab_size=100000, min_count=32, ensure_unicode=True)
+```
 
 ### 分词
 
@@ -124,29 +128,7 @@ print(b' '.join(tokens).decode(errors='ignore'))  # 可视化分词结果
 
 ## 下载
 
-在38G中英混合语料（中英比为3:5）上训练的两个模型：
-
-|  | vocab size | 压缩率 (bytes/token) |
-| :----: | :----: | :----: |
-| [bytepiece_80k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece_80k.zip) | 79,896 | 5.09 |
-| [bytepiece_160k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece_160k.zip) | 159,896 | 5.34 |
-
-在185G混合语料（中、英、代码语料比为3:5:0.5）上训练的五个模型（内存峰值519GB，耗时27.7小时）：
-
-|  | vocab size | 压缩率 (bytes/token) |
-| :----: | :----: | :----: |
-| [bytepiece.plus.40k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.plus.40k.zip) | 39,843 | 4.63 |
-| [bytepiece.plus.80k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.plus.80k.zip) | 79,812 | 5.13 |
-| [bytepiece.plus.160k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.plus.160k.zip) | 159,846 | 5.56 |
-| [bytepiece.plus.240k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.plus.240k.zip) | 239,858 | 5.74 |
-| [bytepiece.plus.320k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.plus.320k.zip) | 319,768 | 5.83 |
-| [bytepiece.id.plus.40k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.id.plus.40k.zip) | 39,857 | 4.51 |
-| [bytepiece.id.plus.80k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.id.plus.80k.zip) | 79,827 | 4.96 |
-| [bytepiece.id.plus.160k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.id.plus.160k.zip) | 159,868 | 5.34 |
-| [bytepiece.id.plus.240k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.id.plus.240k.zip) | 239,888 | 5.50 |
-| [bytepiece.id.plus.320k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.id.plus.320k.zip) | 319,808 | 5.58 |
-
-其中id指的是isolate digits，即将阿拉伯数字单独分开。可以看到，在固定的语料配比上，当vocab_size到大一定程度后，增大vocab_size也无法带来明显的压缩率提高。
+下载开源的BytePiece模型请移步到[models](https://github.com/bojone/bytepiece/tree/main/models)。
 
 ## 引用
 
