@@ -130,6 +130,22 @@ print(b' '.join(tokens).decode(errors='ignore'))  # 可视化分词结果
 
 下载开源的BytePiece模型请移步到[models](https://github.com/bojone/bytepiece/tree/main/models)。
 
+## 转换
+
+`0.6.2`版开始引入`convert_to_sentencepiece`方法，支持将`ensure_unicode`版模型转为sentencepiece模型，并用sentencepiece加载：
+```python
+from bytepiece import Tokenizer
+tokenizer1 = Tokenizer('bytepiece.model')
+tokenizer1.convert_to_sentencepiece('bytepiece_sp.model')
+
+import sentencepiece as spm
+tokenizer2 = spm.SentencePieceProcessor('bytepiece_sp.model')
+
+tokenizer1.encode('今天天气不错')
+tokenizer2.encode('今天天气不错')
+```
+对于大部分输入，两个版本的模型都能够获得相同的分词结果和相同的编码ids。但无论如何，bytepiece和sentencepiece有了不完全一样的处理逻辑，尤其是sentencepiece加了很多莫须有的预处理操作，这导致两个版本的模型无法完全对齐。目前已知的问题之一是，当输入包含多个连续换行符(\n)时，分词可能可能会有分歧。
+
 ## 引用
 
 ```
