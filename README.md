@@ -144,7 +144,7 @@ tokenizer2 = spm.SentencePieceProcessor('bytepiece_sp.model')
 tokenizer1.encode('今天天气不错')
 tokenizer2.encode('今天天气不错')
 ```
-对于大部分输入，两个版本的模型都能够获得相同的分词结果和相同的编码ids。但无论如何，bytepiece和sentencepiece有了不完全一样的处理逻辑，尤其是sentencepiece加了很多莫须有的预处理操作，这导致两个版本的模型无法完全对齐。目前已知的问题之一是，当输入包含多个连续换行符(\n)时，分词结果可能会有分歧。
+对于大部分输入，两个版本的模型都能够获得相同的分词结果和相同的编码ids。但无论如何，bytepiece和sentencepiece的处理逻辑不完全一样，bytepiece更加纯粹一些，而sentencepiece加了很多莫须有的预处理操作，这导致两个版本的模型无法完全对齐。目前已知的问题之一是，当输入包含多个连续换行符(\n)时，分词结果可能会有分歧。
 
 ## 引用
 
