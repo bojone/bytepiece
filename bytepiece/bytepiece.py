@@ -331,3 +331,47 @@ class Tokenizer:
     def decode(self, ids):
         pieces = [self._id2piece[i] for i in ids if i > 2]
         return b''.join(pieces).decode(errors='ignore')
+
+    def convert_to_sentencepiece(self, filepath):
+        import os
+        os.environ['PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION'] = 'python'
+        from sentencepiece.sentencepiece_model_pb2 import TrainerSpec, NormalizerSpec, ModelProto
+        SentencePiece = ModelProto.SentencePiece
+
+        pieces, others = [
+            SentencePiece(piece='<unk>', score=0, type=2),
+            SentencePiece(piece='<s>', score=0, type=3),
+            SentencePiece(piece='</s>', score=0, type=3)
+        ], []
+        for i in range(3, self.vocab_size):
+            p = self._id2piece[i]
+            s = self._automaton.get(p)[1]
+            if len(p) > 1 or len(str(p)) == 4:
+                if len(p) == 1:
+                    p2 = '<0x{:02X}>'.format(ord(p))
+                    others.append(SentencePiece(piece=p2, score=-100, type=6))
+                p = re.sub(' ', '▁', p.decode())
+                pieces.append(SentencePiece(piece=p, score=s))
+            else:
+                p = '<0x{:02X}>'.format(ord(p))
+                pieces.append(SentencePiece(piece=p, score=s, type=6))
+
+        trainer_spec = TrainerSpec(
+            model_type=1,  # Unigram
+            vocab_size=len(pieces + others),
+            split_by_unicode_script=False,
+            byte_fallback=True
+        )
+        normalizer_spec = NormalizerSpec(
+            name='identity',
+            precompiled_charsmap=b'',
+            add_dummy_prefix=False,
+            remove_extra_whitespaces=False
+        )
+        model = ModelProto(
+            pieces=pieces + others,
+            trainer_spec=trainer_spec,
+            normalizer_spec=normalizer_spec
+        )
+        with open(filepath, 'wb') as fw:
+            fw.write(model.SerializeToString())
