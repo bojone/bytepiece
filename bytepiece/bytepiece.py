@@ -332,9 +332,7 @@ class Tokenizer:
         pieces = [self._id2piece[i] for i in ids if i > 2]
         return b''.join(pieces).decode(errors='ignore')
 
-    def convert_to_sentencepiece(self, filepath):
-        import os
-        os.environ['PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION'] = 'python'
+    def convert_to_sentencepiece(self, path):
         from sentencepiece.sentencepiece_model_pb2 import TrainerSpec, NormalizerSpec, ModelProto
         SentencePiece = ModelProto.SentencePiece
 
@@ -373,5 +371,18 @@ class Tokenizer:
             trainer_spec=trainer_spec,
             normalizer_spec=normalizer_spec
         )
-        with open(filepath, 'wb') as fw:
+        with open(path, 'wb') as fw:
             fw.write(model.SerializeToString())
+
+
+def convert_to_bytepiece(pieces, path):
+    pieces = {
+        k if isinstance(k, bytes) else k.encode(): v
+        for k, v in pieces.items()
+    }
+    trainer = Trainer()
+    trainer.max_vocab_size = len(pieces) + 259
+    trainer.max_piece_length = np.inf
+    trainer.min_count = 1
+    trainer.pieces = trainer.prune_pieces(pieces)
+    trainer.save(path)
