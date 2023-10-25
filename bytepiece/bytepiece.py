@@ -381,7 +381,7 @@ def convert_to_bytepiece(pieces, path):
         for k, v in pieces.items()
     }
     trainer = Trainer()
-    trainer.max_vocab_size = len(pieces) + 259
+    trainer.max_vocab_size = [len(pieces) + 259]
     trainer.max_piece_length = np.inf
     trainer.min_count = 1
     trainer.pieces = trainer.prune_pieces(pieces)
