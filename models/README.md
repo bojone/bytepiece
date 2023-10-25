@@ -63,9 +63,9 @@ tokenizer = Tokenizer('bytepiece.eu.plus.320k.model')
 pieces2 = {}
 for k, v in tokenizer._pieces.items():
     if len(k) == 1:
-        pieces2[k] = v
+        pieces2[k] = pieces2.get(k, 0) + v
     elif len(k.decode()) == 1:
-        pieces2[k] = v
+        pieces2[k] = pieces2.get(k, 0) + v
     else:
         for k in k.split():
             if len(re.findall(b'[a-zA-Z0-9]', k)) == len(k):
