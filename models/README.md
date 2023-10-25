@@ -40,11 +40,11 @@
 
 ## 结巴版
 
+从[jieba](https://github.com/fxsjy/jieba)的词表转换而来，主要保留了jieba的原词表和词频，并融合了[bytepiece.eu.plus.320k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.eu.plus.320k.zip)的标点、单字和英文，文本分词效果基本上会跟jieba一致，但英文和数字可能会略有不同（jieba本身不是面向tokenizer设计，所以没有加上标点、英文等token，需要额外补充，而有限补充的情况下，无法保证分词结果一致）。
+
 |  | vocab size | 压缩率 (bytes/token) | 中文压缩率 (bytes/token) |
 | :----: | :----: | :----: | :----: |
 | [bytepiece.jieba.410k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.jieba.410k.zip) | 409,629 | 2.87 | 4.43 |
-
-从[jieba](https://github.com/fxsjy/jieba)的词表转换而来，主要保留了jieba的原词表和词频，并融合了[bytepiece.eu.plus.320k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.eu.plus.320k.zip)的标点、单字和英文，文本分词效果基本上会跟jieba一致，但英文和数字可能会略有不同（jieba本身不是面向tokenizer设计，所以没有加上标点、英文等token，需要额外补充，而有限补充的情况下，无法保证分词结果一致）。
 
 转换该模型的目的，是得到一个中文分词结果跟我们常规认知的中文分词一致的tokenizer，而不是追求压缩率，可以理解为这是一个简单的有监督bytepiece模型，也可以理解为一个带有id转换功能的jieba分词。bytepiece版本分词速度大概是原始jieba（HMM=False）的两倍，跟[jieba_fast](https://github.com/deepcs233/jieba_fast)持平（当输入进一步增长时，jieba和jieba_fast都会明显下降，最终则明显慢于bytepiece）。
 
