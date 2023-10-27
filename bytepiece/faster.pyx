@@ -6,14 +6,18 @@ from libc.math cimport INFINITY, exp, log
 srand(time(NULL))
 
 
-cdef inline double random():
-    return rand() / float(RAND_MAX)
+cpdef set_seed(unsigned int seed):
+    srand(seed)
 
 
 cdef inline double logsumexp(double x, double y):
     if x < y:
         x, y = y, x
     return x + log(1 + exp(y - x))
+
+
+cdef inline bint choice(double x, double y):
+    return rand() < exp(x - y) * RAND_MAX
 
 
 def _tokenize(self, bytes text, double alpha=-1):
@@ -31,7 +35,7 @@ def _tokenize(self, bytes text, double alpha=-1):
         else:
             score = scores[s] + alpha * v
             scores[e] = logsumexp(scores[e], score)
-            if random() < exp(score - scores[e]):
+            if choice(score, scores[e]):
                 routes[e] = s
     while text:
         s = routes[e]
