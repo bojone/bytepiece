@@ -285,7 +285,7 @@ class Trainer:
 class Tokenizer:
     """Unigram tokenizer with Aho-Corasick automaton
     """
-    def __init__(self, pieces):
+    def __init__(self, pieces, seed=None):
         if isinstance(pieces, str):
             pieces = json.load(open(pieces))
         pieces = {b64decode(k): v for k, v in pieces.items()}
@@ -301,6 +301,11 @@ class Tokenizer:
         for k, v in self._pieces.items():
             self._automaton.add_word(k, (len(k), np.log(v) - log_total))
         self._automaton.make_automaton()
+        self.set_seed(seed)
+
+    def set_seed(self, seed):
+        if seed is not None:
+            faster.set_seed(seed)
 
     def _tokenize(self, text, alpha=-1):
         return faster._tokenize(self, text, alpha)
