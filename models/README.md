@@ -38,6 +38,18 @@
 
 其中id指的是isolate digits，即将阿拉伯数字单独分开；eu指的是eusure unicode，保证每一个多字节token都可以decode为unicode。可以看到，在固定的语料配比上，当vocab_size到大一定程度后，增大vocab_size也无法带来明显的压缩率提高。
 
+## 中文版
+
+在近200G清洗过后的wudao语料（中文）上训练的模型：
+
+|  | vocab size | 中文压缩率 (bytes/token) |
+| :----: | :----: | :----: |
+| [bytepiece.zh.id.eu.40k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.zh.id.eu.40k.zip) | 39,683 | 4.88 |
+| [bytepiece.zh.id.eu.80k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.zh.id.eu.80k.zip) | 79,363 | 5.34 |
+| [bytepiece.zh.id.eu.160k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.zh.id.eu.160k.zip) | 159,220 | 5.79 |
+| [bytepiece.zh.id.eu.240k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.zh.id.eu.240k.zip) | 239,066 | 5.99 |
+| [bytepiece.zh.id.eu.320k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.zh.id.eu.320k.zip) | 318,582 | 6.09 |
+
 ## 结巴版
 
 从[jieba](https://github.com/fxsjy/jieba)的词表转换而来，主要保留了jieba的原词表和词频，并融合了[bytepiece.eu.plus.320k](https://github.com/bojone/bytepiece/blob/main/models/bytepiece.eu.plus.320k.zip)的标点、单字和英文，文本分词效果基本上会跟jieba一致，但英文和数字可能会略有不同（jieba本身不是面向tokenizer设计，所以没有加上标点、英文等token，需要额外补充，而有限补充的情况下，无法保证分词结果一致）。
