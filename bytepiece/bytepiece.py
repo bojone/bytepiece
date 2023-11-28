@@ -328,13 +328,18 @@ class Tokenizer:
     def ids_to_pieces(self, ids):
         return [self._id2piece[i] for i in ids]
 
-    def encode(self, text, add_bos=False, add_eos=False, alpha=-1):
-        pieces = [self._piece2id[p] for p in self.tokenize(text, alpha)]
-        if add_bos:
-            pieces = [1] + pieces
-        if add_eos:
-            pieces += [2]
-        return pieces
+    def encode(self, text, add_bos=False, add_eos=False, alpha=-1, iter=False):
+        def generator():
+            if add_bos:
+                yield 1
+            for p in self.tokenize(text, alpha, True):
+                yield self._piece2id[p]
+            if add_eos:
+                yield 2
+
+        if iter:
+            return generator()
+        return list(generator())
 
     def decode(self, ids):
         pieces = [self._id2piece[i] for i in ids if i > 2]
