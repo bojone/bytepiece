@@ -310,12 +310,8 @@ class Tokenizer:
     def _tokenize(self, text, alpha=-1):
         return faster._tokenize(self, text, alpha)
 
-    def _iter_tokenize(self, text, alpha=-1):
-        for t in normalize(text):
-            yield self._tokenize(t, alpha)
-
     def tokenize(self, text, alpha=-1, iter=False):
-        pieces = chain(*self._iter_tokenize(text, alpha))
+        pieces = chain(*(self._tokenize(t, alpha) for t in normalize(text)))
         if iter:
             return pieces
         return list(pieces)
