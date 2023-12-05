@@ -44,7 +44,7 @@ pip install Cython
 ```
 安装完之后，就可以用pip安装BytePiece了：
 ```bash
-pip install bytepiece==0.6.2
+pip install bytepiece==0.6.3
 ```
 
 ## 使用
@@ -99,6 +99,7 @@ print(b' '.join(tokens).decode(errors='ignore'))  # 可视化分词结果
 
 ids = tokenizer.encode(text)  # 返回tokens对应的ids
 print(tokenizer.decode(ids))  # 重新将ids解码为unicode文本
+ids = tokenizer.encode(text, iter=True)  # 返回ids的generator
 
 tokens = tokenizer.tokenize(text, alpha=0.2)  # 随机tokenize
 print(b' '.join(tokens).decode(errors='ignore'))  # 可视化分词结果
