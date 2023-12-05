@@ -44,7 +44,7 @@ pip install Cython
 ```
 After that, you can install BytePiece via pip:
 ```bash
-pip install bytepiece==0.6.1
+pip install bytepiece==0.6.3
 ```
 
 ## Usage
@@ -99,6 +99,7 @@ print(b' '.join(tokens).decode(errors='ignore'))  # Visualize the tokenization r
 
 ids = tokenizer.encode(text)  # Returns the ids corresponding to tokens
 print(tokenizer.decode(ids))  # Decode the ids back to unicode text
+ids = tokenizer.encode(text, iter=True)  # Returns the generator of ids
 
 tokens = tokenizer.tokenize(text, alpha=0.2)  # Random Tokenization
 print(b' '.join(tokens).decode(errors='ignore'))  # Visualize the tokenization result
