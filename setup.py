@@ -8,7 +8,7 @@ setup(
     version='0.6.3',
     python_requires='>=3',
     description='Smarter Byte-based Tokenizer',
-    long_description=open('README_en.md').read(),
+    long_description=open('README_en.md',encoding="utf-8").read(),
     long_description_content_type='text/markdown',
     license='Apache License 2.0',
     url='https://github.com/bojone/bytepiece',
